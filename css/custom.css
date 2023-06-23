@@ -8,7 +8,10 @@
   left: 0 !important;
   /* 鼠标悬停是左侧缩进归零，完全显示按钮 */
 }
-
+#pagination {
+  width: 100%;
+  margin: auto;
+}
 /* 全局默认鼠标指针 */
 body,
 html{
