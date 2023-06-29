@@ -1,0 +1,461 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>spring面试题 | Jiang's blog</title><meta name="author" content="Jiang"><meta name="copyright" content="Jiang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="谈谈你对Spring IOC的理解控制反转(IOC)是一种思想，而实现的方式是依赖注入(DI) 引用知乎答主的一个回答：  例如，你写了一个组件 A，负责计算一件商品中所包含的税款。很多组件都用到了组件 A，或者说 它们都“依赖”组件 A。 有一天，计算税款 的方法变了。也许是政策调整、也许是公司不再适用于之前的纳税标准，总之 在之前用到组件 A 的地方，现在需要用另一套方法来计算税款。 于是你新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring面试题">
+<meta property="og:url" content="https://jiangblog.top/2023/06/29/spring-springQA/index.html">
+<meta property="og:site_name" content="Jiang&#39;s blog">
+<meta property="og:description" content="谈谈你对Spring IOC的理解控制反转(IOC)是一种思想，而实现的方式是依赖注入(DI) 引用知乎答主的一个回答：  例如，你写了一个组件 A，负责计算一件商品中所包含的税款。很多组件都用到了组件 A，或者说 它们都“依赖”组件 A。 有一天，计算税款 的方法变了。也许是政策调整、也许是公司不再适用于之前的纳税标准，总之 在之前用到组件 A 的地方，现在需要用另一套方法来计算税款。 于是你新">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jiangblog.top/img/spring.png">
+<meta property="article:published_time" content="2023-06-29T06:58:50.000Z">
+<meta property="article:modified_time" content="2023-06-29T06:58:50.000Z">
+<meta property="article:author" content="Jiang">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jiangblog.top/img/spring.png"><link rel="shortcut icon" href="/img/hacker.png"><link rel="canonical" href="https://jiangblog.top/2023/06/29/spring-springQA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'spring面试题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-29 14:58:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/spring.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Jiang's blog"><img class="site-icon" src="/img/logo.png"/><span class="site-name">Jiang's blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> 留言板</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">spring面试题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-29T06:58:50.000Z" title="发表于 2023-06-29 14:58:50">2023-06-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-29T06:58:50.000Z" title="更新于 2023-06-29 14:58:50">2023-06-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/spring/">spring</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="spring面试题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="谈谈你对Spring-IOC的理解"><a href="#谈谈你对Spring-IOC的理解" class="headerlink" title="谈谈你对Spring IOC的理解"></a>谈谈你对Spring IOC的理解</h1><p>控制反转(IOC)是一种思想，而实现的方式是依赖注入(DI)</p>
+<p>引用知乎答主的一个回答：</p>
+<blockquote>
+<p>例如，你写了一个组件 A，负责计算一件商品中所包含的税款。很多组件都用到了组件 A，或者说 它们都“依赖”组件 A。</p>
+<p>有一天，计算税款 的方法变了。也许是政策调整、也许是公司不再适用于之前的纳税标准，总之 在之前用到组件 A 的地方，现在需要用另一套方法来计算税款。 于是你新写了一个组件 B，用来按照新标准计算税款。 </p>
+<p>（等一下，为什么不直接修改组件 A，把它改成最新的税款计算逻辑？很多情况下这是行不通的， 例如组件 A 所代表的旧的税款计算方式仍在一些特定场景中用到，所以不能直接改动。即便现在不 会用到组件 A，也不能保证将来不会再用到它，总之我们希望保持组件 A 不变。）</p>
+<p>这时候，问题来了：<strong>所有依赖组件 A 的地方，现在都要把它替换成组件 B！</strong> 且不说这样改容易遗漏，即便不出问题，也不是一个好习惯。如果每次改动底层逻辑，都要修改所 有依赖它的组件，这样的依赖关系显然是脆弱和僵硬的。 </p>
+<p>这时候，控制反转（IoC）思想就派上用场了。 正确的做法是，在一开始设计组件依赖 的时候就考虑到未来出现改动的可能性。所有依赖组件 A 的组件，都不直接 import 组件 A，而是 import 一个接口 I。它们会说，“给我一个实现了接口 I 的组件！”在 Spring 中，这就是 Autowired 注解（或者等价的 Resource 注解）的含义。 组件 A 实现了接口 I，组件 B 也同样会实现接口 I。</p>
+<p>如果之后希望把某个场景下所有用到组件 A 的 地方都替换为组件 B，那么只需要在相应场景的 Spring 配置中把组件 A 改为组件 B 即可。 换言之，任何业务组件 都不再直接控制 import 哪个具体组件，而是把这个控制权交给 Spring 的配置中心。</p>
+</blockquote>
+<p>核心思想是解耦，之前需要什么对象自己造什么对象，这叫控制正序，但是一旦业务复杂起来，耦合性就会很高，不利于维护，不如之前的对象不用了，需要重写之前的业务代码，那么对象也得跟着变，这个时候，就需要IOC的作用，将对象的控制交给第三方，具体代码只需要让第三方将用到的对象注入即可，而注入这个过程就是实现控制反转的一种方式，在spring中，叫做依赖注入。</p>
+<p>ps：这里再举一个知乎的例子，感觉很好玩：</p>
+<blockquote>
+<p>控制反转一种思想。如果题主在学java,请记住一句话就行：</p>
+<p>以“依赖注入”的方式实现了“控制反转”的效果，以便符合软件工程中“依赖倒置”原则。</p>
+<p>一位纯情的少女，被渣男虐的死去活来，这是因为她对渣男产生了“依赖”，渣男可以对其进行”控制”。直到有一天她幡然悔悟，发表了一份声明:想上我么？只要符合以下要求即可…..</p>
+<p>这个声明怎么发表呢？通常由两种方式:</p>
+<p>(1)、告诉上帝一生，让它赐一位缓解寂寞的帅哥。java web体系中，spring就是那个上帝。 她通过 @缓解寂寞的帅哥 注解来声明。至于上帝怎么帮她把这个皮条来过来，她是不管的。</p>
+<p>（2）、贴个小广告，上面列出条件：潘、驴、邓、小、闲；必须符合这几项条件才行。小广告就是借口，贴小广告就是声明接口。你自视甚高，跑去应征。我相信你一定符合了她的条件。即 实现了接口。</p>
+<p>乖乖隆地咚，my God。男的必须依赖她了(依赖倒置了)，”控制”被她反转了（控制反转）。一颗绿茶新星崛起了，江湖又迎来了新一轮血雨腥风…..</p>
+</blockquote>
+<p>举一个代码上的例子：</p>
+<p>有一个汽车类和飞机类，一开始所有的业务代码里都用的汽车类的对象，但是之后升级了，所有的汽车要求全部换成飞机，此时应该一开始就让汽车和飞机实现一个交通接口，然后具体业务将这个接口传递进去，而具体的对象有IOC容器注入</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Traffic</span> &#123;</span><br><span class="line">    String <span class="title function_">type</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Car</span> <span class="keyword">implements</span> <span class="title class_">Traffic</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">type</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Car&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Primary</span><span class="comment">// 都实现了traffic接口，优先注入Plane这个bean</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Plane</span> <span class="keyword">implements</span> <span class="title class_">Traffic</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">type</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;plane&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommunityApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="type">ApplicationContext</span> <span class="variable">applicationContext</span> <span class="operator">=</span> SpringApplication.run(CommunityApplication.class, args);</span><br><span class="line">		<span class="type">Traffic</span> <span class="variable">tools</span> <span class="operator">=</span> applicationContext.getBean(Traffic.class);</span><br><span class="line">		System.out.println(tools.type());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">输入：plane</span><br></pre></td></tr></table></figure>
+
+<p>使用@Primary可能会出现一种问题，就是有的业务需要car，有的业务需要plane，这个时候可以给bean取名，默认bean的名称为类名小写，也可以在注解后加括号指定:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component(&quot;myCar&quot;)</span> <span class="comment">// 指定bean的名称</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Car</span> <span class="keyword">implements</span> <span class="title class_">Traffic</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">type</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Car&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommunityApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="type">ApplicationContext</span> <span class="variable">applicationContext</span> <span class="operator">=</span> SpringApplication.run(CommunityApplication.class, args);</span><br><span class="line">		<span class="type">Traffic</span> <span class="variable">tools</span> <span class="operator">=</span> applicationContext.getBean(<span class="string">&quot;myCar&quot;</span>,Traffic.class); <span class="comment">// 通过名称获取bean</span></span><br><span class="line">		System.out.println(tools.type());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Component-和-Bean-的区别是什么？"><a href="#Component-和-Bean-的区别是什么？" class="headerlink" title="@Component 和 @Bean 的区别是什么？"></a>@Component 和 @Bean 的区别是什么？</h1><ul>
+<li><p><code>@Component</code> 注解作用于类，而<code>@Bean</code>注解作用于方法。</p>
+</li>
+<li><p><code>@Component</code>通常是通过类路径扫描来自动侦测以及自动装配到 Spring 容器中（我们可以使用 <code>@ComponentScan</code> 注解定义要扫描的路径从中找出标识了需要装配的类自动装配到 Spring 的 bean 容器中）。<code>@Bean</code> 注解通常是我们在标有该注解的方法中定义产生这个 bean,<code>@Bean</code>告诉了 Spring 这是某个类的实例，当我需要用它的时候还给我。</p>
+</li>
+<li><p><code>@Bean</code> 注解比 <code>@Component</code> 注解的自定义性更强，而且很多地方我们只能通过 <code>@Bean</code> 注解来注册 bean。比如当我们引用第三方库中的类需要装配到 <code>Spring</code>容器时，则只能通过 <code>@Bean</code>来实现。</p>
+</li>
+</ul>
+<h1 id="Autowired-和-Resource-的区别是什么？"><a href="#Autowired-和-Resource-的区别是什么？" class="headerlink" title="@Autowired 和 @Resource 的区别是什么？"></a>@Autowired 和 @Resource 的区别是什么？</h1><p><code>Autowired</code> 属于 Spring 内置的注解，默认根据类型注入；</p>
+<p><code>@Resource</code>属于 JDK 提供的注解，默认根据名称注入；</p>
+<p>如果一个接口有多个实现类，根据类型注入就会产生冲突，此时有2中方法：</p>
+<ol>
+<li>使用<code>@Resource</code>指定<code>bean</code>的名称</li>
+<li>使用<code>@Qualifier</code>和<code>@Autowired</code>，<code>@Qualifier</code>指定名称</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service(&quot;service-1&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestServiceImpl1</span> <span class="keyword">implements</span> <span class="title class_">TestService</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;我是service-1&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注入方式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Resource(name = &quot;service-1&quot;)</span></span><br><span class="line">TestService testService;</span><br><span class="line"></span><br><span class="line">*************************************</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;service-1&quot;)</span></span><br><span class="line">TestService testService;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Bean-的作用域有哪些"><a href="#Bean-的作用域有哪些" class="headerlink" title="Bean 的作用域有哪些?"></a>Bean 的作用域有哪些?</h1><p>Spring 中 Bean 的作用域通常有下面几种：</p>
+<ul>
+<li><strong>singleton</strong> : IoC 容器中只有唯一的 bean 实例。Spring 中的 bean 默认都是单例的，是对单例设计模式的应用。</li>
+<li><strong>prototype</strong> : 每次获取都会创建一个新的 bean 实例。也就是说，连续 <code>getBean()</code> 两次，得到的是不同的 Bean 实例。</li>
+<li><strong>request</strong> （仅 Web 应用可用）: 每一次 HTTP 请求都会产生一个新的 bean（请求 bean），该 bean 仅在当前 HTTP request 内有效。</li>
+<li><strong>session</strong> （仅 Web 应用可用） : 每一次来自新 session 的 HTTP 请求都会产生一个新的 bean（会话 bean），该 bean 仅在当前 HTTP session 内有效。</li>
+<li><strong>application&#x2F;global-session</strong> （仅 Web 应用可用）：每个 Web 应用在启动时创建一个 Bean（应用 Bean），该 bean 仅在当前应用启动时间内有效。</li>
+<li><strong>websocket</strong> （仅 Web 应用可用）：每一次 WebSocket 会话产生一个新的 bean。</li>
+</ul>
+<p>在springboot项目中，主要通过<code>@Scope</code>注解声明Bean的作用域，默认为<strong>singleton</strong>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="meta">@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)</span></span><br><span class="line"><span class="keyword">public</span> Person <span class="title function_">personPrototype</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Spring中的单例Bean是线程安全的吗？"><a href="#Spring中的单例Bean是线程安全的吗？" class="headerlink" title="Spring中的单例Bean是线程安全的吗？"></a>Spring中的单例Bean是线程安全的吗？</h1><p>单例 Bean 存在线程问题，主要是因为当多个线程操作同一个对象的时候是存在资源竞争的。</p>
+<p>常见的有两种解决办法：</p>
+<ol>
+<li>在 Bean 中尽量避免定义可变的成员变量。</li>
+<li>在类中定义一个 <code>ThreadLocal</code> 成员变量，将需要的可变成员变量保存在 <code>ThreadLocal</code> 中。</li>
+</ol>
+<p>不过，大部分 Bean 实际都是无状态（没有实例变量）的（比如 Dao、Service），这种情况下， Bean 是线程安全的。</p>
+<h1 id="Spring中Bean的生命周期"><a href="#Spring中Bean的生命周期" class="headerlink" title="Spring中Bean的生命周期"></a>Spring中Bean的生命周期</h1><h1 id="谈谈你对Spring-AOP的理解"><a href="#谈谈你对Spring-AOP的理解" class="headerlink" title="谈谈你对Spring AOP的理解"></a>谈谈你对Spring AOP的理解</h1><p>在日常的开发工作中，我们可能会遇到在不同的模块中对方法执行进行日志记录，如果每个方法中都加入日志的代码，一来代码重复性高，二来不能专注于模块业务，事实上我们知道诸如日志，权限，事务，性能监测等业务几乎涉及到了所有的核心模块，如果把这些特殊的业务代码直接到核心业务模块的代码中就会造成上述的问题，而工程师更希望的是这些模块可以实现热插拔特性而且无需把外围的代码入侵到核心模块中，这样在日后的维护和扩展也将会有更佳的表现，假设现在我们把日志、权限、事务、性能监测等外围业务看作单独的关注点(也可以理解为单独的模块)，每个关注点都可以在需要它们的时刻及时被运用而且无需提前整合到核心模块中，这种形式相当下图</p>
+<p><img src="https://jiangblogimage.oss-cn-guangzhou.aliyuncs.com/images/image-20230629161737057.png" alt="image-20230629161737057"></p>
+<p>从图可以看出，每个关注点与核心业务模块分离，作为单独的功能，横切几个核心业务模块，这样的做的好处是显而易见的，每份功能代码不再单独入侵到核心业务类的代码中，即核心模块只需关注自己相关的业务，当需要外围业务(日志，权限，性能监测、事务控制)时，这些外围业务会通过一种特殊的技术自动应用到核心模块中，这些关注点有个特殊的名称，叫做“横切关注点”，上图也很好的表现出这个概念。</p>
+<p>这种抽象级别的技术就是AOP(面向切面编程)。</p>
+<p>再说Spring AOP之前，先简单了解一下AspectJ，该技术可以在传统Java程序中实现AOP。</p>
+<p>这种方法需要自定义AspectJ类，然后定义切点，也就是目标方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by zejian on 2017/2/15.</span></span><br><span class="line"><span class="comment"> * Blog : http://blog.csdn.net/javazejian [原文地址,请尊重原创]</span></span><br><span class="line"><span class="comment"> * 切面类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> aspect MyAspectJDemo &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定义切点,日志记录切点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    pointcut <span class="title function_">recordLog</span><span class="params">()</span>:call(* HelloWord.sayHello(..));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定义切点,权限验证(实际开发中日志和权限一般会放在不同的切面中,这里仅为方便演示)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    pointcut <span class="title function_">authCheck</span><span class="params">()</span>:call(* HelloWord.sayHello(..));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定义前置通知!</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    before():authCheck()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;sayHello方法执行前验证权限&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定义后置通知</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    after():recordLog()&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;sayHello方法执行后记录日志&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这种方法就可以实现AOP，更多关于AspectJ的细节不多赘述，我们主要聊一下切入原理。</p>
+<p>对于这个过程，一般分为动态织入和静态织入，动态织入的方式是在运行时动态将要增强的代码织入到目标类中，这样往往是通过动态代理技术完成的，如<a href="https://link.zhihu.com/?target=http://lib.csdn.net/base/java">Java </a>JDK的动态代理(Proxy，底层通过反射实现)或者CGLIB的动态代理(底层通过继承实现)，Spring AOP采用的就是基于运行时增强的代理技术，这点后面会分析，这里主要重点分析一下静态织入，<code>ApectJ</code>采用的就是<strong>静态织入</strong>的方式。<code>ApectJ</code>主要采用的是编译期织入，在这个期间使用<code>AspectJ</code>的<code>acj</code>编译器(类似<code>javac</code>)把aspect类编译成class字节码后，在java目标类编译时织入，即先编译aspect类再编译目标类。</p>
+<p><img src="https://jiangblogimage.oss-cn-guangzhou.aliyuncs.com/images/v2-a4f70efe3e2bb0b438ea89a3ae927011_r.jpg" alt="img"></p>
+<p>ok~，关于AspectJ就简单介绍到这。</p>
+<p>下面进入正题来聊一下Spring AOP。</p>
+<p>Spring AOP 与<code>ApectJ</code> 的目的一致，都是为了统一处理横切业务，但与AspectJ不同的是，Spring AOP 并不尝试提供完整的AOP功能(即使它完全可以实现)，Spring AOP 更注重的是与Spring IOC容器的结合，并结合该优势来解决横切业务的问题，因此在AOP的功能完善方面，相对来说AspectJ具有更大的优势m。</p>
+<p>Spring注意到AspectJ在AOP的实现方式上依赖于特殊编译器(ajc编译器)，因此Spring很机智回避了这点，转向采用<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%8A%80%E6%9C%AF&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22article%22,%22sourceId%22:%2225522841%22%7D">动态代理技术</a>的实现原理来构建Spring AOP的内部机制（动态织入），这是与AspectJ（静态织入）最根本的区别。</p>
+<p>这里贴一个之前做学成在线项目的时候我自己加入的AOP日志记录的代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LogAspect</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LogAspect</span><span class="params">()</span> &#123;</span><br><span class="line">        LOG.info(<span class="string">&quot;Base LogAspect&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">Logger</span> <span class="variable">LOG</span> <span class="operator">=</span> LoggerFactory.getLogger(LogAspect.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 定义一个切点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Pointcut(&quot;execution(public * com.xuecheng..*Controller.*(..))&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">controllerPointcut</span><span class="params">()</span> &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before(&quot;controllerPointcut()&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doBefore</span><span class="params">(JoinPoint joinPoint)</span> &#123;</span><br><span class="line">        <span class="comment">// 开始打印请求日志</span></span><br><span class="line">        <span class="type">ServletRequestAttributes</span> <span class="variable">attributes</span> <span class="operator">=</span> (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        <span class="type">HttpServletRequest</span> <span class="variable">request</span> <span class="operator">=</span> attributes.getRequest();</span><br><span class="line">        <span class="type">Signature</span> <span class="variable">signature</span> <span class="operator">=</span> joinPoint.getSignature();</span><br><span class="line">        <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> signature.getName();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印请求信息</span></span><br><span class="line">        LOG.info(<span class="string">&quot;------------- 开始 -------------&quot;</span>);</span><br><span class="line">        LOG.info(<span class="string">&quot;请求地址: &#123;&#125; &#123;&#125;&quot;</span>, request.getRequestURL().toString(), request.getMethod());</span><br><span class="line">        LOG.info(<span class="string">&quot;类名方法: &#123;&#125;.&#123;&#125;&quot;</span>, signature.getDeclaringTypeName(), name);</span><br><span class="line">        LOG.info(<span class="string">&quot;远程地址: &#123;&#125;&quot;</span>, request.getRemoteAddr());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 打印请求参数</span></span><br><span class="line">        Object[] args = joinPoint.getArgs();</span><br><span class="line">        <span class="comment">// LOG.info(&quot;请求参数: &#123;&#125;&quot;, JSONObject.toJSONString(args));</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 排除特殊类型的参数，如文件类型</span></span><br><span class="line">        Object[] arguments = <span class="keyword">new</span> <span class="title class_">Object</span>[args.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; args.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (args[i] <span class="keyword">instanceof</span> ServletRequest</span><br><span class="line">                    || args[i] <span class="keyword">instanceof</span> ServletResponse</span><br><span class="line">                    || args[i] <span class="keyword">instanceof</span> MultipartFile) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            arguments[i] = args[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 排除字段，敏感字段或太长的字段不显示：身份证、手机号、邮箱、密码等</span></span><br><span class="line">        String[] excludeProperties = &#123;&#125;;</span><br><span class="line">        <span class="type">PropertyPreFilters</span> <span class="variable">filters</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PropertyPreFilters</span>();</span><br><span class="line">        PropertyPreFilters.<span class="type">MySimplePropertyPreFilter</span> <span class="variable">excludefilter</span> <span class="operator">=</span> filters.addFilter();</span><br><span class="line">        excludefilter.addExcludes(excludeProperties);</span><br><span class="line">        LOG.info(<span class="string">&quot;请求参数: &#123;&#125;&quot;</span>, JSONObject.toJSONString(arguments, excludefilter));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Around(&quot;controllerPointcut()&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">doAround</span><span class="params">(ProceedingJoinPoint proceedingJoinPoint)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">startTime</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            result = proceedingJoinPoint.proceed();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</span><br><span class="line">            LOG.info(<span class="string">&quot;------------- 请求异常, 结束 耗时：&#123;&#125; ms -------------&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 排除字段，敏感字段或太长的字段不显示：身份证、手机号、邮箱、密码等</span></span><br><span class="line">        String[] excludeProperties = &#123;&#125;;</span><br><span class="line">        <span class="type">PropertyPreFilters</span> <span class="variable">filters</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PropertyPreFilters</span>();</span><br><span class="line">        PropertyPreFilters.<span class="type">MySimplePropertyPreFilter</span> <span class="variable">excludefilter</span> <span class="operator">=</span> filters.addFilter();</span><br><span class="line">        excludefilter.addExcludes(excludeProperties);</span><br><span class="line">        LOG.info(<span class="string">&quot;返回结果: &#123;&#125;&quot;</span>, JSONObject.toJSONString(result, excludefilter));</span><br><span class="line">        LOG.info(<span class="string">&quot;------------- 结束 耗时：&#123;&#125; ms -------------&quot;</span>, System.currentTimeMillis() - startTime);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要是通过注解的形式。</p>
+<h2 id="Spring-AOP的实现原理概要"><a href="#Spring-AOP的实现原理概要" class="headerlink" title="Spring AOP的实现原理概要"></a><strong>Spring AOP的实现原理概要</strong></h2><p>前面的分析中，我们谈到Spring AOP的实现原理是基于动态织入的动态代理技术，而AspectJ则是静态织入，而动态代理技术又分为Java JDK动态代理和CGLIB动态代理，前者是基于反射技术的实现，后者是基于继承的机制实现，下面通过一个简单的例子来分析这两种技术的代码实现。</p>
+<h3 id="Java-JDK动态代理"><a href="#Java-JDK动态代理" class="headerlink" title="Java JDK动态代理"></a>Java JDK动态代理</h3><p>我们写段代码来说明这部分。</p>
+<p>首先定义一个A类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">A</span> <span class="keyword">implements</span> <span class="title class_">ExInterface</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行A的execute方法...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该类实现了<code>ExInterface</code>接口，该接口定义为</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ExInterface</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义两个类提供要切入的方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Report</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">recordLog</span><span class="params">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;记录日志...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AuthCheck</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">authCheck</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;执行前验证用户权限&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>编写代理类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JDKProxy</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 要被代理的目标对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> A target;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">JDKProxy</span><span class="params">(A target)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建代理类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> ExInterface <span class="title function_">createProxy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (ExInterface) Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), <span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 调用被代理类(目标对象)的任意方法都会触发invoke方法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> proxy  代理类</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> method 被代理类的方法</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args   被代理类的方法参数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="comment">//过滤不需要该业务的方法</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;execute&quot;</span>.equals(method.getName())) &#123;</span><br><span class="line">            <span class="comment">//调用前验证权限</span></span><br><span class="line">            AuthCheck.authCheck();</span><br><span class="line">            <span class="comment">//调用目标对象的方法</span></span><br><span class="line">            <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> method.invoke(target, args);</span><br><span class="line">            <span class="comment">//记录日志数据</span></span><br><span class="line">            Report.recordLog();</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">&quot;delete&quot;</span>.equals(method.getName())) &#123;</span><br><span class="line">            <span class="comment">//.....</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果不需要增强直接执行原方法</span></span><br><span class="line">        <span class="keyword">return</span> method.invoke(target, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//测试验证</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> &#123;</span><br><span class="line">        <span class="type">A</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">A</span>();</span><br><span class="line">        <span class="comment">//创建JDK代理</span></span><br><span class="line">        <span class="type">JDKProxy</span> <span class="variable">jdkProxy</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JDKProxy</span>(a);</span><br><span class="line">        <span class="comment">//创建代理对象</span></span><br><span class="line">        <span class="type">ExInterface</span> <span class="variable">proxy</span> <span class="operator">=</span> jdkProxy.createProxy();</span><br><span class="line">        <span class="comment">//执行代理对象方法</span></span><br><span class="line">        proxy.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行我们得到</p>
+<p><img src="https://jiangblogimage.oss-cn-guangzhou.aliyuncs.com/images/image-20230629164932950.png" alt="image-20230629164932950"></p>
+<p>在A的execute方法里面并没有调用任何权限和日志的代码，也没有直接操作a对象，相反地只是调用了proxy代理对象的方法，最终结果却是预期的，这就是动态代理技术。</p>
+<p>实际上动态代理的底层是通过反射技术来实现。只要拿到A类的class文件和A类的实现接口，很自然就可以生成<strong>相同接口的代理类</strong>并调用a对象的方法了。</p>
+<p>通过该方法实现AOP的前提是A类带接口。</p>
+<p>这就是Java JDK动态代理的代码实现过程，小结一下，运用JDK动态代理，被代理类(目标对象，如A类)，必须已有实现接口(如<code>ExInterface</code>)，因为JDK提供的Proxy类将通过目标对象的类加载器<code>ClassLoader</code>和Interface，以及句柄(Callback)创建与A类拥有相同接口的代理对象proxy，该代理对象将拥有接口<code>ExInterface</code>中的所有方法，同时代理类必须实现一个类似回调函数的<code>InvocationHandler</code>接口并重写该接口中的<code>invoke</code>方法，当调用proxy的每个方法(如案例中的proxy#execute())时，invoke方法将被调用，利用该特性，可以在invoke方法中对目标对象(被代理对象如A)方法执行的前后动态添加其他外围业务操作，此时无需触及目标对象的任何代码，也就实现了外围业务的操作与目标对象(被代理对象如A)完全解耦合的目的。当然缺点也很明显需要拥有接口，这也就有了后来的CGLIB动态代理了。</p>
+<h3 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h3><p>通过CGLIB动态代理实现上述功能并不要求目标对象拥有接口类，实际上CGLIB动态代理是通过继承的方式实现的，因此可以减少没必要的接口，具体原理我也没看太明白，之后把这个坑填上。</p>
+<p>总之，动态代理流程入下图</p>
+<p><img src="https://jiangblogimage.oss-cn-guangzhou.aliyuncs.com/images/v2-b091ac6fd64f493eaeabfeff4cee7fee_b.png" alt="img"></p>
+<h2 id="多个切面的执行顺序如何控制？"><a href="#多个切面的执行顺序如何控制？" class="headerlink" title="多个切面的执行顺序如何控制？"></a>多个切面的执行顺序如何控制？</h2><ol>
+<li>通常使用<code>@Order</code> 注解直接定义切面顺序</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 值越小优先级越高</span></span><br><span class="line"><span class="meta">@Order(3)</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingAspect</span> <span class="keyword">implements</span> <span class="title class_">Ordered</span> &#123;</span><br></pre></td></tr></table></figure>
+
+<p>实现<code>Ordered</code> 接口重写 <code>getOrder</code> 方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingAspect</span> <span class="keyword">implements</span> <span class="title class_">Ordered</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getOrder</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 返回值越小优先级越高</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC"></a>什么是SpringMVC</h1><p>通常的WEB开发使用三层架构：</p>
+<ul>
+<li><p>数据层（dao)</p>
+</li>
+<li><p>业务层(service)</p>
+</li>
+<li><p>表现层(SpringMVC)<br>数据层对数据进行crud等操作，业务层对数据进行逻辑处理，最后将结果交给表现层，表现层负责将数据呈现到页面中。<br> 在表现层，MVC主要指：</p>
+</li>
+<li><p>Model：模型层</p>
+</li>
+<li><p>View：视图层</p>
+</li>
+<li><p>Controller：控制层</p>
+<p>引用ChatGpt的回答：</p>
+</li>
+</ul>
+<blockquote>
+<p>SpringMVC是一个MVC架构的Web应用程序框架。MVC是指模型(Model)-视图(View)-控制器(Controller)之间的分离。工作原理如下：</p>
+<ul>
+<li>客户端请求发给前端控制器(Front Controller)，即DispatcherServlet。</li>
+<li>DispatcherServlet 根据请求的URL找到对应的HandlerMapping（处理器映射器），然后将请求分发给对应的处理器Controller。</li>
+<li>Controller进行业务逻辑的处理，然后将处理结果封装为ModelAndView。</li>
+<li>ModelAndView中的Model返回给DispatcherServlet，DispatcherServlet将Model中的数据绑定到对应的View上。</li>
+<li>View进行渲染，返回给DispatcherServlet。</li>
+<li>DispatcherServlet将渲染后的View发送给客户端。</li>
+</ul>
+<p>简单说，就是客户端请求到来后，经过DispatcherServlet的分发，找到对应的Controller，然后Controller完成业务逻辑并返回数据，DispatcherServlet再将这些数据绑定到对应的View上，最后将渲染后的View返回给客户端。</p>
+</blockquote>
+<p>可以这样理解，MVC负责把前端发来的请求处理完后再渲染成视图返回给用户，这里的Model是个抽象的概念，model中携带了controller处理结束的数据，然后将这些数据通过view表现到页面上去。</p>
+<h3 id="SpringMVC的核心组件"><a href="#SpringMVC的核心组件" class="headerlink" title="SpringMVC的核心组件"></a>SpringMVC的核心组件</h3><p>记住了下面这些组件，也就记住了 SpringMVC 的工作原理。</p>
+<ul>
+<li><strong><code>DispatcherServlet</code></strong> ：<strong>核心的中央处理器</strong>，负责接收请求、分发，并给予客户端响应。</li>
+<li><strong><code>HandlerMapping</code></strong> ：<strong>处理器映射器</strong>，根据 uri 去匹配查找能处理的 <code>Handler</code> ，并会将请求涉及到的拦截器和 <code>Handler</code> 一起封装。</li>
+<li><strong><code>HandlerAdapter</code></strong> ：<strong>处理器适配器</strong>，根据 <code>HandlerMapping</code> 找到的 <code>Handler</code> ，适配执行对应的 <code>Handler</code>；</li>
+<li><strong><code>Handler</code></strong> ：<strong>请求处理器</strong>，处理实际请求的处理器。</li>
+<li><strong><code>ViewResolver</code></strong> ：<strong>视图解析器</strong>，根据 <code>Handler</code> 返回的逻辑视图 &#x2F; 视图，解析并渲染真正的视图，并传递给 <code>DispatcherServlet</code> 响应客户端</li>
+</ul>
+<h3 id="SpringMVC的工作原理"><a href="#SpringMVC的工作原理" class="headerlink" title="SpringMVC的工作原理"></a>SpringMVC的工作原理</h3><p><img src="https://jiangblogimage.oss-cn-guangzhou.aliyuncs.com/images/springmvc.png"></p>
+<p><strong>流程说明（重要）：</strong></p>
+<ol>
+<li>客户端（浏览器）发送请求， <code>DispatcherServlet</code>拦截请求。</li>
+<li><code>DispatcherServlet</code> 根据请求信息调用 <code>HandlerMapping</code> 。<code>HandlerMapping</code> 根据 uri 去匹配查找能处理的 <code>Handler</code>（也就是我们平常说的 <code>Controller</code> 控制器） ，并会将请求涉及到的拦截器和 <code>Handler</code> 一起封装。</li>
+<li><code>DispatcherServlet</code> 调用 <code>HandlerAdapter</code>适配执行 <code>Handler</code> 。</li>
+<li><code>Handler</code> 完成对用户请求的处理后，会返回一个 <code>ModelAndView</code> 对象给<code>DispatcherServlet</code>，<code>ModelAndView</code> 顾名思义，包含了数据模型以及相应的视图的信息。<code>Model</code> 是返回的数据对象，<code>View</code> 是个逻辑上的 <code>View</code>。</li>
+<li><code>ViewResolver</code> 会根据逻辑 <code>View</code> 查找实际的 <code>View</code>。</li>
+<li><code>DispaterServlet</code> 把返回的 <code>Model</code> 传给 <code>View</code>（视图渲染）。</li>
+<li>把 <code>View</code> 返回给请求者（浏览器）</li>
+</ol>
+<h1 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h1><p>推荐使用注解的方式统一异常处理，具体会使用到 <code>@ControllerAdvice</code> + <code>@ExceptionHandler</code> 这两个注解</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(XuechengException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> RestErrorResponse <span class="title function_">customException</span><span class="params">(XuechengException e)</span> &#123;</span><br><span class="line">        log.error(<span class="string">&quot;【系统异常】&#123;&#125;&quot;</span>, e.getErrMessage(), e);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestErrorResponse</span>(e.getErrMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(Exception.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> RestErrorResponse <span class="title function_">exception</span><span class="params">(Exception e)</span> &#123;</span><br><span class="line"></span><br><span class="line">        log.error(<span class="string">&quot;【系统异常】&#123;&#125;&quot;</span>, e.getMessage(), e);</span><br><span class="line">        <span class="keyword">if</span>(e.getMessage().equals(<span class="string">&quot;不允许访问&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestErrorResponse</span>(<span class="string">&quot;您没有权限访问 此功能&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestErrorResponse</span>(CommonError.UNKNOWN_ERROR.getErrMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(MethodArgumentNotValidException.class)</span></span><br><span class="line">    <span class="meta">@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)</span></span><br><span class="line">    <span class="keyword">public</span> RestErrorResponse <span class="title function_">methodArgumentNotValidException</span><span class="params">(MethodArgumentNotValidException e)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">BindingResult</span> <span class="variable">bindingResult</span> <span class="operator">=</span> e.getBindingResult();</span><br><span class="line">        List&lt;String&gt; msgList = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//将错误信息放在msgList</span></span><br><span class="line">        bindingResult.getFieldErrors().forEach(item-&gt;msgList.add(item.getDefaultMessage()));</span><br><span class="line">        <span class="comment">//拼接错误信息</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> StringUtils.join(msgList, <span class="string">&quot;,&quot;</span>);</span><br><span class="line">        log.error(<span class="string">&quot;【系统异常】&#123;&#125;&quot;</span>,msg);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RestErrorResponse</span>(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>项目中，通过自定义一个异常然后使用基于注解的统一异常处理。</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>spring面试题</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://jiangblog.top/2023/06/29/spring-springQA/">https://jiangblog.top/2023/06/29/spring-springQA/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>Jiang</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-06-29</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-06-29</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/spring/">spring</a><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post_share"><div class="social-share" data-image="/img/spring.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/06/27/%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/" title="Kafka"><img class="cover" src="/img/kafka.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Kafka</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/24/%E4%B8%AD%E9%97%B4%E4%BB%B6-MqQA/" title="消息队列面试题"><img class="cover" src="/img/mqwork.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-24</div><div class="title">消息队列面试题</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jiang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/love-you-3000"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/love-you-3000" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:18834198033@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客^_^,本站评论采用Giscus, 发表评论请先登录github</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9Spring-IOC%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">谈谈你对Spring IOC的理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Component-%E5%92%8C-Bean-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">@Component 和 @Bean 的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Autowired-%E5%92%8C-Resource-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">@Autowired 和 @Resource 的区别是什么？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bean-%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-number">4.</span> <span class="toc-text">Bean 的作用域有哪些?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring%E4%B8%AD%E7%9A%84%E5%8D%95%E4%BE%8BBean%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E5%90%97%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">Spring中的单例Bean是线程安全的吗？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring%E4%B8%ADBean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">6.</span> <span class="toc-text">Spring中Bean的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9Spring-AOP%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">7.</span> <span class="toc-text">谈谈你对Spring AOP的理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-AOP%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E6%A6%82%E8%A6%81"><span class="toc-number">7.1.</span> <span class="toc-text">Spring AOP的实现原理概要</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">7.1.1.</span> <span class="toc-text">Java JDK动态代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CGLIB%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">7.1.2.</span> <span class="toc-text">CGLIB动态代理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E5%88%87%E9%9D%A2%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6%EF%BC%9F"><span class="toc-number">7.2.</span> <span class="toc-text">多个切面的执行顺序如何控制？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSpringMVC"><span class="toc-number">8.</span> <span class="toc-text">什么是SpringMVC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="toc-number">8.0.1.</span> <span class="toc-text">SpringMVC的核心组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">8.0.2.</span> <span class="toc-text">SpringMVC的工作原理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">9.</span> <span class="toc-text">统一异常处理</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/29/spring-springQA/" title="spring面试题"><img src="/img/spring.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spring面试题"/></a><div class="content"><a class="title" href="/2023/06/29/spring-springQA/" title="spring面试题">spring面试题</a><time datetime="2023-06-29T06:58:50.000Z" title="发表于 2023-06-29 14:58:50">2023-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/27/%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/" title="Kafka"><img src="/img/kafka.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kafka"/></a><div class="content"><a class="title" href="/2023/06/27/%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/" title="Kafka">Kafka</a><time datetime="2023-06-27T12:44:45.000Z" title="发表于 2023-06-27 20:44:45">2023-06-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/26/juc-thread/" title="进程与线程"><img src="/img/thread.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="进程与线程"/></a><div class="content"><a class="title" href="/2023/06/26/juc-thread/" title="进程与线程">进程与线程</a><time datetime="2023-06-26T11:20:52.000Z" title="发表于 2023-06-26 19:20:52">2023-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/26/leetcode-hot100/" title="Leetcode Hot 100"><img src="/img/hot.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode Hot 100"/></a><div class="content"><a class="title" href="/2023/06/26/leetcode-hot100/" title="Leetcode Hot 100">Leetcode Hot 100</a><time datetime="2023-06-26T01:06:11.000Z" title="发表于 2023-06-26 09:06:11">2023-06-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/25/leetcode-weeklyCompetition/" title="周赛记录"><img src="/img/weekly.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="周赛记录"/></a><div class="content"><a class="title" href="/2023/06/25/leetcode-weeklyCompetition/" title="周赛记录">周赛记录</a><time datetime="2023-06-25T12:52:20.000Z" title="发表于 2023-06-25 20:52:20">2023-06-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Jiang</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>function getGiscusTheme (theme) {
+  return theme === 'dark' ? 'dark' : 'light'
+}
+
+function loadGiscus () {
+  const config = Object.assign({
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'love-you-3000/giscus',
+    'data-repo-id': 'R_kgDOJzFPYQ',
+    'data-category-id': 'DIC_kwDOJzFPYc4CXas5',
+    'data-mapping': 'pathname',
+    'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+    'data-reactions-enabled': '1',
+    crossorigin: 'anonymous',
+    async: true
+  },null)
+
+  let ele = document.createElement('script')
+  for (let key in config) {
+    ele.setAttribute(key, config[key])
+  }
+  document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function changeGiscusTheme (theme) {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame')
+    if (!iframe) return
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+  }
+
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(theme)
+    }
+  });
+}
+
+btf.addModeChange('giscus', changeGiscusTheme)
+
+if ('Giscus' === 'Giscus' || !true) {
+  if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+  else loadGiscus()
+} else {
+  function loadOtherComment () {
+    loadGiscus()
+  }
+}</script></div><script async src="/js/title.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b2dc59ff50b24673b677f4e13ad22962';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/06/22/welcome/" alt=""><img width="48" height="48" src="/img/welcome.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-06-22</span><a class="blog-slider__title" href="2023/06/22/welcome/" alt="">欢迎光临我的小破站</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2023/06/22/welcome/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
